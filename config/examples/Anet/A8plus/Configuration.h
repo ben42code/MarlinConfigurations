@@ -1136,7 +1136,7 @@
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
 #define X_MIN_ENDSTOP_INVERTING true  // Set to true to invert the logic of the endstop.
 #define Y_MIN_ENDSTOP_INVERTING true  // Set to true to invert the logic of the endstop.
-#define Z_MIN_ENDSTOP_INVERTING true  // Set to true to invert the logic of the endstop.
+#define Z_MIN_ENDSTOP_INVERTING false  // Set to true to invert the logic of the endstop.
 #define I_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define J_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define K_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
@@ -1152,7 +1152,7 @@
 #define U_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define V_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define W_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define Z_MIN_PROBE_ENDSTOP_INVERTING true  // Set to true to invert the logic of the probe.
+#define Z_MIN_PROBE_ENDSTOP_INVERTING false  // Set to true to invert the logic of the probe.
 
 // Enable this feature if all enabled endstop pins are interrupt-capable.
 // This will remove the need to poll the interrupt pins, saving many CPU cycles.
@@ -1363,7 +1363,7 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-//#define BLTOUCH
+#define BLTOUCH
 
 /**
  * MagLev V4 probe by MDD
@@ -1515,7 +1515,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { 10, 10, 0 }
+#define NOZZLE_TO_PROBE_OFFSET { 19, 50, -1.850 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
@@ -1604,7 +1604,7 @@
 #define Z_PROBE_OFFSET_RANGE_MAX 20
 
 // Enable the M48 repeatability test to test probe accuracy
-//#define Z_MIN_PROBE_REPEATABILITY_TEST
+#define Z_MIN_PROBE_REPEATABILITY_TEST
 
 // Before deploy/stow pause for user confirmation
 //#define PAUSE_BEFORE_DEPLOY_STOW
@@ -1730,8 +1730,8 @@
 #define Y_BED_SIZE 300
 
 // Travel limits (linear=mm, rotational=°) after homing, corresponding to endstop positions.
-#define X_MIN_POS -26
-#define Y_MIN_POS -6
+#define X_MIN_POS -10
+#define Y_MIN_POS -5
 #define Z_MIN_POS 0
 #define X_MAX_POS 300
 #define Y_MAX_POS 297
@@ -1905,9 +1905,9 @@
  */
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
-//#define AUTO_BED_LEVELING_BILINEAR
+#define AUTO_BED_LEVELING_BILINEAR
 //#define AUTO_BED_LEVELING_UBL
-#define MESH_BED_LEVELING
+//#define MESH_BED_LEVELING
 
 /**
  * Commands to execute at the end of G29 probing.
@@ -1920,7 +1920,7 @@
  * these options to restore the prior leveling state or to always enable
  * leveling immediately after G28.
  */
-//#define RESTORE_LEVELING_AFTER_G28
+#define RESTORE_LEVELING_AFTER_G28
 //#define ENABLE_LEVELING_AFTER_G28
 
 /**
@@ -1991,7 +1991,7 @@
 #if EITHER(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
   // Set the number of grid points per dimension.
-  #define GRID_MAX_POINTS_X 3
+  #define GRID_MAX_POINTS_X 7
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
   // Probe along the Y axis, advancing X after each column
@@ -2055,19 +2055,19 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-//#define LCD_BED_LEVELING
+//- #define LCD_BED_LEVELING
 
 #if ENABLED(LCD_BED_LEVELING)
   #define MESH_EDIT_Z_STEP  0.025 // (mm) Step size while manually probing Z axis.
   #define LCD_PROBE_Z_RANGE 4     // (mm) Z Range centered on Z_MIN_POS for LCD Z adjustment
-  //#define MESH_EDIT_MENU        // Add a menu to edit mesh points
+  //-#define MESH_EDIT_MENU        // Add a menu to edit mesh points
 #endif
 
 // Add a menu item to move between bed corners for manual bed adjustment
-//#define LCD_BED_TRAMMING
+//-#define LCD_BED_TRAMMING
 
 #if ENABLED(LCD_BED_TRAMMING)
-  #define BED_TRAMMING_INSET_LFRB { 30, 30, 30, 30 } // (mm) Left, Front, Right, Back insets
+  #define BED_TRAMMING_INSET_LFRB { 12, 44, 12, 44 } // (mm) Left, Front, Right, Back insets
   #define BED_TRAMMING_HEIGHT      0.0        // (mm) Z height of nozzle at tramming points
   #define BED_TRAMMING_Z_HOP       4.0        // (mm) Z height of nozzle between tramming points
   //#define BED_TRAMMING_INCLUDE_CENTER       // Move to the center after the last corner
@@ -2122,11 +2122,13 @@
  * - Allows Z homing only when XY positions are known and trusted.
  * - If stepper drivers sleep, XY homing may be required again before Z homing.
  */
-//#define Z_SAFE_HOMING
+#define Z_SAFE_HOMING
 
 #if ENABLED(Z_SAFE_HOMING)
-  #define Z_SAFE_HOMING_X_POINT X_CENTER  // (mm) X point for Z homing
-  #define Z_SAFE_HOMING_Y_POINT Y_CENTER  // (mm) Y point for Z homing
+  // #define Z_SAFE_HOMING_X_POINT X_CENTER  // (mm) X point for Z homing
+  // #define Z_SAFE_HOMING_Y_POINT Y_CENTER  // (mm) Y point for Z homing
+  #define Z_SAFE_HOMING_X_POINT 13  // (mm) X point for Z homing
+  #define Z_SAFE_HOMING_Y_POINT 45  // (mm) Y point for Z homing
 #endif
 
 // Homing speeds (linear=mm/min, rotational=°/min)
